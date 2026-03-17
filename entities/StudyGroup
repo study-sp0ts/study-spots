@@ -1,0 +1,88 @@
+{
+  "name": "StudyGroup",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "date_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "location_address": {
+      "type": "string"
+    },
+    "host_email": {
+      "type": "string"
+    },
+    "host_name": {
+      "type": "string"
+    },
+    "join_type": {
+      "type": "string",
+      "enum": [
+        "open",
+        "signup",
+        "apply",
+        "invite_only"
+      ],
+      "default": "open"
+    },
+    "invite_permission": {
+      "type": "string",
+      "enum": [
+        "host_only",
+        "any_member"
+      ],
+      "default": "host_only",
+      "description": "Who can invite others (only relevant when join_type is invite_only)"
+    },
+    "max_size": {
+      "type": "number"
+    },
+    "enable_chat": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "upcoming",
+        "cancelled"
+      ],
+      "default": "upcoming"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "cafe",
+        "library",
+        "coworking",
+        "university",
+        "park",
+        "online",
+        "other"
+      ]
+    }
+  },
+  "required": [
+    "title",
+    "date_time"
+  ]
+}

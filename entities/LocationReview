@@ -1,0 +1,26 @@
+{
+  "name": "LocationReview",
+  "type": "object",
+  "properties": {
+    "location_id": {
+      "type": "string"
+    },
+    "user_email": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number"
+    },
+    "comment": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "location_id",
+    "user_email",
+    "comment"
+  ]
+}

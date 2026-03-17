@@ -1,0 +1,23 @@
+{
+  "name": "StudyGroupComment",
+  "type": "object",
+  "properties": {
+    "group_id": {
+      "type": "string"
+    },
+    "user_email": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "group_id",
+    "user_email",
+    "content"
+  ]
+}

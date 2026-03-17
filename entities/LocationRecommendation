@@ -1,0 +1,63 @@
+{
+  "name": "LocationRecommendation",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "cafe",
+        "library",
+        "coworking",
+        "university",
+        "park",
+        "other"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "has_wifi": {
+      "type": "boolean",
+      "default": false
+    },
+    "has_outlets": {
+      "type": "boolean",
+      "default": false
+    },
+    "has_outside_seating": {
+      "type": "boolean",
+      "default": false
+    },
+    "hours": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "submitted_by": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "category"
+  ]
+}

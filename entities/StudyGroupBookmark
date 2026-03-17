@@ -1,0 +1,16 @@
+{
+  "name": "StudyGroupBookmark",
+  "type": "object",
+  "properties": {
+    "group_id": {
+      "type": "string"
+    },
+    "user_email": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "group_id",
+    "user_email"
+  ]
+}
