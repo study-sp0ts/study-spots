@@ -3,20 +3,20 @@ import { Filter, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const joinTypes = [
-  { value: "open", label: "Open" },
-  { value: "signup", label: "Sign up" },
-  { value: "apply", label: "Apply" },
-  { value: "invite_only", label: "Invite only" },
+  { value: "open", label: "Öffentlich" },
+  { value: "signup", label: "Mit Anmeldung" },
+  { value: "apply", label: "Mit Annfrage" },
+  { value: "invite_only", label: "Nur per Einladung" },
 ];
 
 const categories = [
   { value: "cafe", label: "Café" },
-  { value: "library", label: "Library" },
+  { value: "library", label: "Bibliothek" },
   { value: "coworking", label: "Coworking" },
-  { value: "university", label: "University" },
+  { value: "university", label: "Universität" },
   { value: "park", label: "Park" },
   { value: "online", label: "Online" },
-  { value: "other", label: "Other" },
+  { value: "other", label: "Anderes" },
 ];
 
 export default function GroupFilters({ filters, setFilters }) {
@@ -59,7 +59,7 @@ export default function GroupFilters({ filters, setFilters }) {
               filters.availability === v ? "bg-accent text-accent-foreground border-accent" : "bg-card border-border text-muted-foreground hover:bg-secondary"
             )}
           >
-            {v === "all" ? "All" : "Spots available"}
+            {v === "all" ? "All" : "Freie Plätze"}
           </button>
         ))}
         <button
@@ -69,12 +69,12 @@ export default function GroupFilters({ filters, setFilters }) {
             filters.hideCancelled ? "bg-primary/10 border-primary text-primary" : "bg-card border-border text-muted-foreground hover:bg-secondary"
           )}
         >
-          Hide cancelled
+          Abgesagte ausblenden
         </button>
 
         {hasActive && (
           <button onClick={clearAll} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
-            <X className="h-3 w-3" /> Clear
+            <X className="h-3 w-3" /> Aufheben
           </button>
         )}
       </div>
@@ -99,7 +99,7 @@ export default function GroupFilters({ filters, setFilters }) {
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Location Type</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Ortskategorie</p>
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
@@ -116,15 +116,15 @@ export default function GroupFilters({ filters, setFilters }) {
             </div>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Date Range</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Zeitraum</p>
             <div className="flex gap-2 flex-wrap">
               <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">From</span>
+                <span className="text-xs text-muted-foreground">Von</span>
                 <input type="date" value={filters.dateFrom} onChange={(e) => setFilters((f) => ({ ...f, dateFrom: e.target.value }))}
                   className="px-2 py-1.5 rounded-lg border border-border bg-background text-sm" />
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">To</span>
+                <span className="text-xs text-muted-foreground">Bis</span>
                 <input type="date" value={filters.dateTo} onChange={(e) => setFilters((f) => ({ ...f, dateTo: e.target.value }))}
                   className="px-2 py-1.5 rounded-lg border border-border bg-background text-sm" />
               </div>

@@ -75,13 +75,13 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
       errs.date_time = true;
     } else {
       const start = new Date(form.date_time);
-      if (start < minStart) errs.date_time = "Start must be at least 1 hour from now";
-      if (start > maxStart) errs.date_time = "Start must be within 3 months";
+      if (start < minStart) errs.date_time = "Der Beginn muss mindestens eine Stunde in der Zukunft liegen.";
+      if (start > maxStart) errs.date_time = "Treffen können bis zu 3 Monate im Vorraus geplant werden.";
       if (form.end_time) {
         const end = new Date(form.end_time);
         const diffMin = (end - start) / 60000;
-        if (diffMin < 10) errs.end_time = "End must be at least 10 minutes after start";
-        if (diffMin > 24 * 60) errs.end_time = "Sessions can be at most 24 hours long";
+        if (diffMin < 10) errs.end_time = "Das Treffen muss mindestens 10 Minuten lang sein.";
+        if (diffMin > 24 * 60) errs.end_time = "Treffen können nicht länger als einen Tag dauern.";
       }
     }
     return errs;
@@ -118,23 +118,23 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
     <div className="fixed inset-0 z-[2000] flex items-start justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="bg-card rounded-2xl border border-border shadow-2xl w-full max-w-xl my-8">
         <div className="flex items-center justify-between p-5 border-b border-border">
-          <h2 className="text-lg font-bold">Create Study Group</h2>
+          <h2 className="text-lg font-bold">StuddySession erstellen</h2>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-secondary"><X className="h-4 w-4" /></button>
         </div>
         <form ref={formRef} onSubmit={handleSubmit} className="p-5 space-y-4">
           <div className="space-y-1.5" data-error={!!errors.title}>
-            <Label className={errors.title ? "text-destructive" : ""}>Title *{errors.title && " — required"}</Label>
+            <Label className={errors.title ? "text-destructive" : ""}>Titel *{errors.title && " — required"}</Label>
             <Input value={form.title} onChange={(e) => { set("title", e.target.value); setErrors((p) => ({ ...p, title: false })); }}
-              placeholder="e.g. Linear Algebra Study Session"
+              placeholder="z.B. Dialog auf Englisch üben"
               className={cn("rounded-xl", errors.title && "border-destructive focus-visible:ring-destructive")} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>Subject</Label>
-              <Input value={form.subject} onChange={(e) => set("subject", e.target.value)} placeholder="e.g. Math, CS, All" className="rounded-xl" />
+              <Input value={form.subject} onChange={(e) => set("subject", e.target.value)} placeholder="z.B. Mathe, Englisch B1/2, Leseclub, alles" className="rounded-xl" />
             </div>
             <div className="space-y-1.5" data-error={!!errors.date_time}>
-              <Label className={errors.date_time ? "text-destructive" : ""}>Start Date & Time *{typeof errors.date_time === "string" && ` — ${errors.date_time}`}</Label>
+              <Label className={errors.date_time ? "text-destructive" : ""}>Startdatum & -uhrzeit *{typeof errors.date_time === "string" && ` — ${errors.date_time}`}</Label>
               <Input type="datetime-local" step="300"
                 min={toLocalInput(minStart)} max={toLocalInput(maxStart)}
                 value={form.date_time}
@@ -144,7 +144,7 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
           </div>
           <div className="space-y-1.5" data-error={!!errors.end_time}>
             <Label className={errors.end_time ? "text-destructive" : ""}>
-              End Time <span className="font-normal">(optional){typeof errors.end_time === "string" && ` — ${errors.end_time}`}</span>
+              Ende <span className="font-normal">(optional){typeof errors.end_time === "string" && ` — ${errors.end_time}`}</span>
             </Label>
             <Input type="datetime-local" step="300" value={form.end_time}
               min={form.date_time}
@@ -161,7 +161,7 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
                 value={locationSearch}
                 onChange={(e) => { setLocationSearch(e.target.value); setShowLocationResults(true); if (!e.target.value) clearLocation(); }}
                 onFocus={() => setShowLocationResults(true)}
-                placeholder="Search or type a custom location..."
+                placeholder="Such nach einem StudySpot oder lege einen eigenen Treffpunkt fest..."
                 className="pl-9 rounded-xl"
               />
               {form.location_id && (
@@ -172,7 +172,7 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
               {showLocationResults && locationSearch && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-xl z-50 max-h-52 overflow-y-auto">
                   {filteredLocations.length === 0 ? (
-                    <div className="px-3 py-2 text-sm text-muted-foreground">No locations found — will save as custom</div>
+                    <div className="px-3 py-2 text-sm text-muted-foreground">Kein StudySpot gefunden - benutzerdefinierte Eingabe wird gespeichert</div>
                   ) : filteredLocations.map((loc) => (
                     <button key={loc.id} type="button" onMouseDown={() => selectLocation(loc)}
                       className="w-full flex items-start gap-2 px-3 py-2.5 hover:bg-secondary text-left transition-colors">
@@ -190,7 +190,7 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
           </div>
 
           <div className="space-y-1.5">
-            <Label>Location Type</Label>
+            <Label>Ortkategorie</Label>
             <div className="flex flex-wrap gap-2">
               {categories.map((c) => (
                 <button key={c} type="button" onClick={() => set("category", c)}
@@ -202,20 +202,20 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
           </div>
 
           <div className="space-y-1.5">
-            <Label>Description</Label>
-            <Textarea value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="What will you be studying? Any notes for participants?" className="rounded-xl resize-none h-20" />
+            <Label>Beschreibung</Label>
+            <Textarea value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="Werdet ihr still oder durch Gespräche lernen? Irgendwelche zusätzlichen Infos für Teilnehmer?" className="rounded-xl resize-none h-20" />
           </div>
 
           <div className="space-y-1.5">
-            <Label>Max size <span className="text-muted-foreground font-normal">(3–100, optional)</span></Label>
+            <Label>Maximale Gruppengröße <span className="text-muted-foreground font-normal">(3–100, optional)</span></Label>
             <Input type="number" min="3" max="100" value={form.max_size}
               onChange={(e) => { set("max_size", e.target.value); if (e.target.value && parseInt(e.target.value) >= 3 && form.join_type === "open") set("join_type", "signup"); }}
-              placeholder="Leave empty for unlimited" className="rounded-xl" />
-            {hasMaxSize && <p className="text-xs text-amber-600">With a max size, "Open" join type is not available (spots need to be reserved).</p>}
+              placeholder="Für unbegrenzte Gruppengröße leer lassen" className="rounded-xl" />
+            {hasMaxSize && <p className="text-xs text-amber-600">Bei begrenzter Gruppengröße ist die Option "offen" nicht verfügbar, da die Plätze reserviert werden müssen.</p>}
           </div>
 
           <div className="space-y-1.5">
-            <Label>Join Type</Label>
+            <Label>Beitrittsoptionen</Label>
             <div className="grid grid-cols-2 gap-2">
               {joinTypes.map((jt) => {
                 const disabled = hasMaxSize && jt.value === "open";
@@ -234,9 +234,9 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
 
           {form.join_type === "invite_only" && (
             <div className="space-y-1.5">
-              <Label>Who can invite others?</Label>
+              <Label>Wer darf einladen?</Label>
               <div className="flex gap-2">
-                {[["host_only", "Host only"], ["any_member", "Any member"]].map(([v, l]) => (
+                {[["host_only", "Nur der Host"], ["any_member", "Alle Teilnehmer"]].map(([v, l]) => (
                   <button key={v} type="button" onClick={() => set("invite_permission", v)}
                     className={cn("flex-1 py-2 px-3 rounded-xl border text-sm transition-all", form.invite_permission === v ? "border-primary bg-primary/5 text-primary" : "border-border text-muted-foreground hover:bg-secondary")}>
                     {l}
@@ -247,15 +247,15 @@ export default function CreateGroupModal({ user, onClose, onCreated }) {
           )}
 
           <div className="space-y-1.5">
-            <Label>Enable chat</Label>
+            <Label>Chat erlauben</Label>
             <button type="button" onClick={() => set("enable_chat", !form.enable_chat)}
               className={cn("w-full px-3 py-2 rounded-xl border text-sm font-medium transition-all", form.enable_chat ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary")}>
-              {form.enable_chat ? "Chat enabled ✓" : "Chat disabled"}
+              {form.enable_chat ? "Chat aktiviert ✓" : "Chat deaktiviert"}
             </button>
           </div>
 
           <Button type="submit" disabled={loading} className="w-full h-11 rounded-xl">
-            {loading ? "Creating…" : "Create Study Group"}
+            {loading ? "Wird erstellt..." : "StudySession erstellen"}
           </Button>
         </form>
       </div>

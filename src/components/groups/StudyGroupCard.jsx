@@ -51,7 +51,7 @@ export default function StudyGroupCard({ group, memberCount, isBookmarked, onBoo
             )}
             <span className="flex items-center gap-1">
               <Users className="h-3.5 w-3.5" />
-              {memberCount}{group.max_size ? ` / ${group.max_size}` : ""} members
+              {memberCount}{group.max_size ? ` / ${group.max_size}` : ""} Teilnehmer
             </span>
           </div>
 

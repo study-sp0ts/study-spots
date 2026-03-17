@@ -14,17 +14,17 @@ import LocationReviews from "./LocationReviews";
 
 const categoryConfig = {
   cafe: { label: "Café", icon: Coffee, color: "bg-amber-100 text-amber-700" },
-  library: { label: "Library", icon: BookOpen, color: "bg-blue-100 text-blue-700" },
+  library: { label: "Bibliothek", icon: BookOpen, color: "bg-blue-100 text-blue-700" },
   coworking: { label: "Coworking", icon: Building2, color: "bg-purple-100 text-purple-700" },
-  university: { label: "University", icon: Layers, color: "bg-emerald-100 text-emerald-700" },
+  university: { label: "Universität", icon: Layers, color: "bg-emerald-100 text-emerald-700" },
   park: { label: "Park", icon: TreePine, color: "bg-green-100 text-green-700" },
-  other: { label: "Other", icon: MapPin, color: "bg-gray-100 text-gray-700" },
+  other: { label: "Anderes", icon: MapPin, color: "bg-gray-100 text-gray-700" },
 };
 
 const noiseLevelConfig = {
-  quiet: { label: "Quiet", color: "text-emerald-600" },
-  moderate: { label: "Moderate", color: "text-amber-600" },
-  loud: { label: "Loud", color: "text-red-500" },
+  quiet: { label: "Leise", color: "text-emerald-600" },
+  moderate: { label: "Mittel", color: "text-amber-600" },
+  loud: { label: "Laut", color: "text-red-500" },
 };
 
 export default function LocationDetail({ location, onClose, isFavorite, onToggleFavorite, user, allLocations, onSelectLocation, hideNavigation }) {
@@ -72,7 +72,7 @@ export default function LocationDetail({ location, onClose, isFavorite, onToggle
   };
 
   const shareUrl = window.location.href;
-  const shareText = `Check out ${location.name} — a great study spot in Munich!`;
+  const shareText = `Schau dir ${location.name} an — ein toller StudySpot in München`;
   const [shareCopied, setShareCopied] = useState(false);
 
   const handleShare = async () => {
@@ -197,12 +197,20 @@ export default function LocationDetail({ location, onClose, isFavorite, onToggle
               <AddressMenu address={location.address} latitude={location.latitude} longitude={location.longitude} />
             )}
 
-            {location.hours && (
-              <div className="flex items-start gap-2.5 text-sm">
-                <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
-                <span className="text-muted-foreground">{location.hours}</span>
-              </div>
-            )}
+            {(location.hours || location.hours2 || location.hours3 || location.hours4) && (
+  <div className="flex items-start gap-2.5 text-sm">
+    <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+    
+    <div className="text-muted-foreground flex flex-col">
+      {[location.hours, location.hours2, location.hours3, location.hours4]
+        .filter(Boolean) // entfernt null, undefined, ""
+        .map((hour, index) => (
+          <span key={index}>{hour}</span>
+        ))}
+    </div>
+    
+  </div>
+)}
 
             {noise && (
               <div className="flex items-center gap-2.5 text-sm">
@@ -214,18 +222,18 @@ export default function LocationDetail({ location, onClose, isFavorite, onToggle
             <div>
               <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2.5">Amenities</h3>
               <div className="flex flex-wrap gap-2">
-                <AmenityBadge active={location.has_wifi} icon={Wifi} label="WiFi" />
-                <AmenityBadge active={location.has_outlets} icon={Plug} label="Outlets" />
-                <AmenityBadge active={!!(location.outside_seats && location.outside_seats !== "none") || location.has_outside_seating} icon={Sun} label="Outside Seating" />
+                <AmenityBadge active={location.has_wifi} icon={Wifi} label="WLAN" />
+                <AmenityBadge active={location.has_outlets} icon={Plug} label="Steckdosen" />
+                <AmenityBadge active={!!(location.outside_seats && location.outside_seats !== "none") || location.has_outside_seating} icon={Sun} label="Sitzmöglichkeiten draußen" />
               </div>
             </div>
 
             {(location.inside_seats || location.outside_seats) && (
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2.5 flex items-center gap-1.5"><Users className="h-3.5 w-3.5" /> Seating</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2.5 flex items-center gap-1.5"><Users className="h-3.5 w-3.5" /> Sitzmöglichkeiten</h3>
                 <div className="flex gap-3 flex-wrap text-sm">
-                  {location.inside_seats && <span className="bg-secondary px-3 py-1.5 rounded-lg">🪑 Inside: {location.inside_seats}</span>}
-                  {location.outside_seats && location.outside_seats !== "none" && <span className="bg-secondary px-3 py-1.5 rounded-lg">☀️ Outside: {location.outside_seats}</span>}
+                  {location.inside_seats && <span className="bg-secondary px-3 py-1.5 rounded-lg">🪑 Drinnen: {location.inside_seats}</span>}
+                  {location.outside_seats && location.outside_seats !== "none" && <span className="bg-secondary px-3 py-1.5 rounded-lg">☀️ Draußen: {location.outside_seats}</span>}
                 </div>
               </div>
             )}
@@ -234,14 +242,14 @@ export default function LocationDetail({ location, onClose, isFavorite, onToggle
               <a href={location.menu_url} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-2.5 bg-accent/10 text-accent rounded-xl text-sm font-medium hover:bg-accent/20 transition-colors w-full">
                 <UtensilsCrossed className="h-4 w-4" />
-                View Food & Drinks Menu
+                Speisekarte
                 <ExternalLink className="h-3.5 w-3.5 ml-auto" />
               </a>
             )}
 
             {location.description && (
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">About</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Über</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{location.description}</p>
               </div>
             )}

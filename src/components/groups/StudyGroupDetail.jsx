@@ -9,10 +9,10 @@ import { cn } from "@/lib/utils";
 import { format, isPast, differenceInHours } from "date-fns";
 
 const joinTypeConfig = {
-  open: { label: "Open to all", icon: Globe, color: "text-emerald-600" },
-  signup: { label: "Sign up required", icon: UserCheck, color: "text-blue-600" },
-  apply: { label: "Apply to join", icon: Mail, color: "text-amber-600" },
-  invite_only: { label: "Invite only", icon: Lock, color: "text-gray-500" },
+  open: { label: "Öffentlich", icon: Globe, color: "text-emerald-600" },
+  signup: { label: "Mit Anmeldung", icon: UserCheck, color: "text-blue-600" },
+  apply: { label: "Mit Anfrage", icon: Mail, color: "text-amber-600" },
+  invite_only: { label: "Nur per Einladung", icon: Lock, color: "text-gray-500" },
 };
 
 export default function StudyGroupDetail({ group: initialGroup, user, members, isBookmarked, onBookmark, onClose, onRefresh, allLocations, onOpenLocation }) {
@@ -104,7 +104,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
   const fillPct = group.max_size ? Math.min(100, Math.round((confirmedCount / group.max_size) * 100)) : null;
 
   const shareUrl = window.location.href;
-  const shareText = `Join my study group: ${group.title}`;
+  const shareText = `Tritt meiner StudySession bei: ${group.title}`;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -124,13 +124,13 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
   const getUserAvatar = (email) => allUsers.find((u) => u.email === email);
 
   const renderJoinButton = () => {
-    if (isCancelled) return <span className="text-sm text-destructive font-medium">Cancelled</span>;
-    if (isHost) return <span className="text-sm text-muted-foreground font-medium">You're the host</span>;
+    if (isCancelled) return <span className="text-sm text-destructive font-medium">Abgesagt</span>;
+    if (isHost) return <span className="text-sm text-muted-foreground font-medium">Du bist der Host</span>;
     if (myMembership) {
       if (myMembership.status === "pending") return (
         <div className="flex items-center gap-2">
           <span className="text-sm text-amber-600 font-medium">Application pending</span>
-          <Button variant="outline" size="sm" onClick={() => leaveMutation.mutate()} className="rounded-xl">Cancel</Button>
+          <Button variant="outline" size="sm" onClick={() => leaveMutation.mutate()} className="rounded-xl">Abbrechen</Button>
         </div>
       );
       if (myMembership.status === "confirmed" && !hasStarted) return (
@@ -138,7 +138,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
       );
       if (myMembership.status === "confirmed" && hasStarted) return null;
     }
-    if (group.join_type === "invite_only") return <span className="text-sm text-muted-foreground">Invite only</span>;
+    if (group.join_type === "invite_only") return <span className="text-sm text-muted-foreground">Nur per Einladung</span>;
     if (isFull) return <Button disabled className="rounded-xl">Full</Button>;
     const label = group.join_type === "apply" ? "Apply to Join" : group.join_type === "signup" ? "Sign Up" : "Join";
     return <Button onClick={() => joinMutation.mutate()} className="rounded-xl">{label}</Button>;
@@ -153,7 +153,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
             <div className="flex flex-wrap gap-1.5 mb-2">
               {isCancelled ? (
                 <span className="inline-flex items-center gap-1 text-xs font-medium text-destructive bg-destructive/10 px-2 py-0.5 rounded-full">
-                  <AlertTriangle className="h-3 w-3" /> Cancelled
+                  <AlertTriangle className="h-3 w-3" /> Abgesagt
                 </span>
               ) : (
                 <span className={cn("inline-flex items-center gap-1 text-xs font-medium", jt.color)}>
@@ -163,7 +163,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
               {group.subject && <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground">{group.subject}</span>}
             </div>
             <h2 className="text-xl font-bold">{group.title}</h2>
-            <p className="text-sm text-muted-foreground mt-0.5">Hosted by {group.host_name || group.host_email}</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Host: {group.host_name || group.host_email}</p>
           </div>
           <div className="flex gap-1 flex-shrink-0 relative">
             <button onClick={onBookmark} className="p-2 rounded-xl hover:bg-secondary transition-colors">
@@ -187,7 +187,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
                   className="flex items-center gap-2 px-3 py-2.5 hover:bg-secondary text-foreground border-t border-border">Telegram</a>
                 <button onClick={copyLink} className="w-full flex items-center gap-2 px-3 py-2.5 hover:bg-secondary border-t border-border text-left">
                   {shareCopied ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
-                  {shareCopied ? "Copied!" : "Copy link"}
+                  {shareCopied ? "In die Zwischenablage kopiert!" : "Link kopieren"}
                 </button>
               </div>
             )}
@@ -230,10 +230,10 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
           {/* Description with edit for host */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">About</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Beschreibung</h3>
               {isHost && !hasStarted && !isCancelled && (
                 <button onClick={() => setEditingDesc(!editingDesc)} className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1">
-                  <Pencil className="h-3 w-3" /> Edit
+                  <Pencil className="h-3 w-3" /> Bearbeiten
                 </button>
               )}
             </div>
@@ -242,11 +242,11 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
                 <Textarea value={newDesc} onChange={(e) => setNewDesc(e.target.value)} rows={3} className="rounded-xl resize-none text-sm" />
                 <div className="flex gap-2">
                   <Button size="sm" onClick={() => saveDescMutation.mutate()} className="rounded-xl">Save</Button>
-                  <Button size="sm" variant="outline" onClick={() => { setEditingDesc(false); setNewDesc(group.description || ""); }} className="rounded-xl">Cancel</Button>
+                  <Button size="sm" variant="outline" onClick={() => { setEditingDesc(false); setNewDesc(group.description || ""); }} className="rounded-xl">Abbrechen</Button>
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground leading-relaxed">{group.description || <span className="italic opacity-60">No description yet.</span>}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{group.description || <span className="italic opacity-60">Noch keine Beschreibung.</span>}</p>
             )}
           </div>
 
@@ -254,7 +254,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
-                <Users className="h-3.5 w-3.5" /> Members
+                <Users className="h-3.5 w-3.5" /> Teilnehmer
                 <span className="normal-case font-normal">{confirmedCount}{group.max_size ? ` / ${group.max_size}` : ""}</span>
               </h3>
               {renderJoinButton()}
@@ -270,11 +270,11 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
           {canCancel && !confirmCancel && (
             <div className="border border-destructive/20 rounded-xl p-3 flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm font-medium text-destructive">Cancel this session</p>
-                <p className="text-xs text-muted-foreground">Possible up to 24h before start</p>
+                <p className="text-sm font-medium text-destructive">Diese Session absagen</p>
+                <p className="text-xs text-muted-foreground">Bis zu 24h vor Beginn möglich</p>
               </div>
               <Button size="sm" variant="outline" onClick={() => setConfirmCancel(true)} className="rounded-xl text-destructive border-destructive/40 hover:bg-destructive/10 flex-shrink-0">
-                Cancel session
+                Session absagen
               </Button>
             </div>
           )}
@@ -282,12 +282,12 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
             <div className="border-2 border-destructive/40 rounded-xl p-4 bg-destructive/5 space-y-3">
               <div className="flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4 text-destructive" />
-                <p className="text-sm font-semibold text-destructive">Are you sure you want to cancel this session?</p>
+                <p className="text-sm font-semibold text-destructive">Bist du dir sicher, dass du dieses Treffen absagen willst?</p>
               </div>
-              <p className="text-xs text-muted-foreground">This cannot be undone. All {confirmedCount} member{confirmedCount !== 1 ? "s" : ""} will be notified.</p>
+              <p className="text-xs text-muted-foreground">Diese Aktion kann nicht rückgängig gemacht werden. {confirmedCount !== 1 ? "Alle " : " "} {confirmedCount} Teilnehmer {confirmedCount !== 1 ? "werden" : "wird"} benachrichtigt.</p>
               <div className="flex gap-2">
-                <Button size="sm" onClick={() => cancelGroupMutation.mutate()} className="rounded-xl bg-destructive hover:bg-destructive/90 text-white">Yes, cancel it</Button>
-                <Button size="sm" variant="outline" onClick={() => setConfirmCancel(false)} className="rounded-xl">Keep it</Button>
+                <Button size="sm" onClick={() => cancelGroupMutation.mutate()} className="rounded-xl bg-destructive hover:bg-destructive/90 text-white">Ja, absagen</Button>
+                <Button size="sm" variant="outline" onClick={() => setConfirmCancel(false)} className="rounded-xl">Nein, stattfinden lassen</Button>
               </div>
             </div>
           )}
@@ -295,14 +295,14 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
           {/* Pending applicants (host only) */}
           {isHost && groupMembers.filter((m) => m.status === "pending").length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Pending Applications</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Ausstehende Anfragen</h3>
               <div className="space-y-2">
                 {groupMembers.filter((m) => m.status === "pending").map((m) => (
                   <div key={m.id} className="flex items-center justify-between p-2.5 bg-secondary rounded-xl">
                     <span className="text-sm font-medium">{m.user_name || m.user_email}</span>
                     <div className="flex gap-1.5">
-                      <Button size="sm" className="h-7 rounded-lg" onClick={() => approveMutation.mutate(m.id)}>Accept</Button>
-                      <Button size="sm" variant="outline" className="h-7 rounded-lg text-destructive" onClick={() => rejectMutation.mutate(m.id)}>Reject</Button>
+                      <Button size="sm" className="h-7 rounded-lg" onClick={() => approveMutation.mutate(m.id)}>Annehmen</Button>
+                      <Button size="sm" variant="outline" className="h-7 rounded-lg text-destructive" onClick={() => rejectMutation.mutate(m.id)}>Ablehnen</Button>
                     </div>
                   </div>
                 ))}
@@ -317,7 +317,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
                 <MessageCircle className="h-3.5 w-3.5" /> Chat
               </h3>
               <div className="space-y-3 max-h-56 overflow-y-auto mb-3 pr-1">
-                {comments.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">No messages yet. Say hi!</p>}
+                {comments.length === 0 && <p className="text-sm text-muted-foreground text-center py-4"> Leer hier. Sag hi!</p>}
                 {comments.map((c) => {
                   const commenter = getUserAvatar(c.user_email);
                   const isMe = c.user_email === user?.email;
@@ -340,7 +340,7 @@ export default function StudyGroupDetail({ group: initialGroup, user, members, i
               {user && (
                 <div className="flex gap-2">
                   <Textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Write a message…" rows={2} className="resize-none rounded-xl text-sm" />
-                  <Button onClick={() => comment.trim() && commentMutation.mutate()} disabled={!comment.trim()} className="self-end rounded-xl">Send</Button>
+                  <Button onClick={() => comment.trim() && commentMutation.mutate()} disabled={!comment.trim()} className="self-end rounded-xl">Senden</Button>
                 </div>
               )}
             </div>

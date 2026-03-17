@@ -17,7 +17,7 @@ export default function SparkleButton({ onClick }) {
       {hovered && (
         <div className="absolute right-14 top-1/2 -translate-y-1/2 bg-card border border-border rounded-xl px-3 py-2 shadow-xl text-xs font-medium text-foreground whitespace-nowrap pointer-events-none z-10">
           Surprise me! ✨
-          <div className="text-muted-foreground text-xs mt-0.5">Random spot from current filters</div>
+          <div className="text-muted-foreground text-xs mt-0.5">Zufälliger vorschlag zu den ausgewählten Filtern passend</div>
         </div>
       )}
     </div>

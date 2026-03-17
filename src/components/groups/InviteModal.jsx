@@ -51,10 +51,10 @@ export default function InviteModal({ group, groupMembers, user, onClose, onRefr
         <div className="p-4 space-y-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name or email..." className="pl-9 rounded-xl" />
+            <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Suche nach Name oder Mail..." className="pl-9 rounded-xl" />
           </div>
           <div className="max-h-72 overflow-y-auto space-y-1">
-            {filtered.length === 0 && <p className="text-sm text-muted-foreground text-center py-6">No users found</p>}
+            {filtered.length === 0 && <p className="text-sm text-muted-foreground text-center py-6">Kein Profil gefunden.</p>}
             {filtered.map((u) => {
               const isInvited = invited.has(u.email);
               return (
@@ -70,7 +70,7 @@ export default function InviteModal({ group, groupMembers, user, onClose, onRefr
                   </div>
                   <Button size="sm" variant={isInvited ? "secondary" : "default"} disabled={isInvited} onClick={() => inviteMutation.mutate(u)}
                     className="rounded-xl h-7 gap-1">
-                    {isInvited ? <><Check className="h-3 w-3" /> Invited</> : <><UserPlus className="h-3 w-3" /> Invite</>}
+                    {isInvited ? <><Check className="h-3 w-3" /> Invited</> : <><UserPlus className="h-3 w-3" /> Einladen</>}
                   </Button>
                 </div>
               );

@@ -83,6 +83,15 @@
     "hours": {
       "type": "string"
     },
+    "hours2": {
+      "type": "string"
+    },
+    "hours3": {
+      "type": "string"
+    },
+    "hours4": {
+      "type": "string"
+    },
     "image_url": {
       "type": "string"
     },

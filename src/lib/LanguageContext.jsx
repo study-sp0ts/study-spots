@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 const de = {
   // Navbar
-  studyGroups: "Lerngruppen",
+  studyGroups: "StudySessions",
   contribute: "Beitragen",
   recommendPlace: "Ort empfehlen",
   submitStudySpot: "Lernort einreichen",
@@ -14,19 +14,19 @@ const de = {
   loadingSpots: "Lernorte werden geladen...",
   spotsFound: (n) => `${n} Lernort${n !== 1 ? "e" : ""} gefunden`,
   // Profile
-  backToMap: "Zurück zur Karte",
+  backToMap: "Zurück",
   savedSpots: "Gespeicherte Orte",
   upcomingGroups: "Bevorstehend",
   pastGroups: "Vergangen",
-  friends: "Freunde",
+  friends: "StudyBuddies",
   sessionsAttended: "Besuchte Sessions",
   sessionsCreated: "Erstellte Sessions",
   noSavedSpots: "Noch keine gespeicherten Orte.",
-  noUpcomingGroups: "Keine bevorstehenden Lerngruppen.",
-  noPastGroups: "Noch keine vergangenen Lerngruppen.",
-  browseGroups: "Lerngruppen durchsuchen →",
+  noUpcomingGroups: "Keine bevorstehenden Sessions.",
+  noPastGroups: "Noch keine vergangenen Sessions.",
+  browseGroups: "StudySessions durchsuchen →",
   pendingNotifications: (n) => `${n} ausstehende Benachrichtigung${n !== 1 ? "en" : ""}`,
-  wantsFriend: "möchte dein Freund sein",
+  wantsFriend: "möchte dein StudyBuddy sein",
   appliedTo: "hat sich beworben für",
   review: "Prüfen →",
   editProfile: "Profil bearbeiten",
@@ -47,7 +47,7 @@ const de = {
   loginToProfile: "Bitte melde dich an, um dein Profil zu sehen.",
   signIn: "Anmelden",
   // Study Groups
-  createGroup: "Gruppe erstellen",
+  createGroup: "Session erstellen",
   findPeople: "Finde Lernpartner in München",
   searchGroups: "Titel, Fach, Beschreibung suchen...",
   groupsFound: (n) => `${n} Gruppe${n !== 1 ? "n" : ""} gefunden`,

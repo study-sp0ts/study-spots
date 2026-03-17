@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
+const res = await fetch("http://localhost:3001/api/StudyLocation");
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, Filter, X, Users } from "lucide-react";
@@ -93,14 +93,14 @@ export default function StudyGroups() {
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2"><Users className="h-6 w-6 text-primary" /> Study Groups</h1>
-              <p className="text-sm text-muted-foreground mt-1">Find people to study with in Munich</p>
+              <h1 className="text-2xl font-bold flex items-center gap-2"><Users className="h-6 w-6 text-primary" /> StudySessions</h1>
+              <p className="text-sm text-muted-foreground mt-1">Finde Leute mit denen du gemeinsam in München lernst</p>
             </div>
             <Button onClick={() => {
               if (!user) { base44.auth.redirectToLogin(window.location.href); return; }
               setShowCreate(true);
             }} className="rounded-xl gap-2">
-              <Plus className="h-4 w-4" /> Create Group
+              <Plus className="h-4 w-4" /> Erstelle eine StudySession
             </Button>
           </div>
 
@@ -109,7 +109,7 @@ export default function StudyGroups() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search by title, subject, description..."
+                placeholder="Suche nach Titel, Thema, Beschreibung..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 rounded-xl"
@@ -125,21 +125,21 @@ export default function StudyGroups() {
               onChange={(e) => setSortBy(e.target.value)}
               className="px-3 py-2 rounded-xl border border-border bg-card text-sm"
             >
-              <option value="date_asc">Date ↑</option>
-              <option value="date_desc">Date ↓</option>
+              <option value="date_asc">Datum ↑</option>
+              <option value="date_desc">Datum ↓</option>
             </select>
           </div>
 
           <GroupFilters filters={filters} setFilters={setFilters} />
 
           {/* Results */}
-          <p className="text-xs text-muted-foreground mb-4">{filtered.length} group{filtered.length !== 1 ? "s" : ""} found</p>
+          <p className="text-xs text-muted-foreground mb-4">{filtered.length} Session{filtered.length !== 1 ? "s" : ""} gefunden</p>
 
           {filtered.length === 0 ? (
             <div className="text-center py-16 text-muted-foreground">
               <Users className="h-12 w-12 mx-auto mb-3 opacity-20" />
-              <p className="font-medium">No study groups found</p>
-              <p className="text-sm mt-1">Try adjusting your filters or create one!</p>
+              <p className="font-medium">Keine StudySession gefunden</p>
+              <p className="text-sm mt-1">Versuche deine Filter anzupassen oder erstelle ein eigenes Treffen!</p>
             </div>
           ) : (
             <div className="space-y-4">

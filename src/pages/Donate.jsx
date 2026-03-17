@@ -6,9 +6,9 @@ import { ArrowLeft, Heart, Coffee, Zap, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tiers = [
-  { icon: Coffee, label: "Buy a Coffee", amount: 3, desc: "Keep the servers running", color: "from-amber-400 to-orange-400" },
-  { icon: Zap, label: "Power Up", amount: 10, desc: "Help us add more features", color: "from-violet-400 to-purple-500" },
-  { icon: Star, label: "Super Supporter", amount: 25, desc: "You're a legend 🙌", color: "from-pink-400 to-rose-500" },
+  { icon: Coffee, label: "Gib einen Kaffee aus", amount: 3, desc: "Lass die Server weiterarbeiten", color: "from-amber-400 to-orange-400" },
+  { icon: Zap, label: "Krasser Energieschub", amount: 10, desc: "Ermögliche es uns mehr Features hinzuzufügen", color: "from-violet-400 to-purple-500" },
+  { icon: Star, label: "Super Supporter", amount: 25, desc: "Du bist die oder der Beste! 🙌", color: "from-pink-400 to-rose-500" },
 ];
 
 export default function Donate() {
@@ -22,15 +22,15 @@ export default function Donate() {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
       <div className="max-w-md w-full">
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back
+          <ArrowLeft className="h-4 w-4" /> Zurück
         </button>
 
         <div className="text-center mb-8">
           <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Heart className="h-7 w-7 text-red-500 fill-red-500" />
           </div>
-          <h1 className="text-2xl font-bold mb-2">Keep StudySpot Munich Free</h1>
-          <p className="text-muted-foreground">This platform is built with love for Munich's study community. Your support keeps it free and growing.</p>
+          <h1 className="text-2xl font-bold mb-2">Halte StudySpots weiterhin kostenlos</h1>
+          <p className="text-muted-foreground">Diese Plattform wurde mit viel Liebe für die Münchner Lerngemeinschaft entwickelt. Deine Unterstützung ermöglicht es, dass sie kostenlos bleibt und weiter wächst.</p>
         </div>
 
         <div className="space-y-3 mb-5">
@@ -59,13 +59,13 @@ export default function Donate() {
 
         {/* Custom amount */}
         <div className="mb-6">
-          <label className="text-sm font-medium text-muted-foreground block mb-2">Or enter a custom amount</label>
+          <label className="text-sm font-medium text-muted-foreground block mb-2">Oder gib einen eigenen Betrag ein</label>
           <div className="relative">
             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">€</span>
             <Input
               type="number"
               min="1"
-              placeholder="e.g. 5"
+              placeholder="z.B. 15"
               value={customAmount}
               onChange={(e) => { setCustomAmount(e.target.value); setSelectedAmount(null); }}
               className={cn("pl-7 rounded-xl", customAmount && "border-primary bg-primary/5")}
@@ -82,7 +82,7 @@ export default function Donate() {
           Donate {finalAmount ? `€${finalAmount}` : ""}
         </Button>
 
-        <p className="text-xs text-center text-muted-foreground mt-4">All donations go directly to hosting and development costs.</p>
+        <p className="text-xs text-center text-muted-foreground mt-4">Alle Spenden fließen direkt in Hosting- & Entwicklungskosten.</p>
       </div>
     </div>
   );

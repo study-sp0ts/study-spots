@@ -41,21 +41,21 @@ export default function AddressMenu({ address, latitude, longitude }) {
             className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-secondary transition-colors"
           >
             <img src="https://www.google.com/favicon.ico" alt="Google" className="h-4 w-4" />
-            Open in Google Maps
+            Mit Google Maps öffnen
           </button>
           <button
             onClick={() => { window.open(appleMapsUrl, "_blank"); setOpen(false); }}
             className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-secondary transition-colors border-t border-border"
           >
             <span className="text-base leading-none">🍎</span>
-            Open in Apple Maps
+            Mit Apple Maps öffnen
           </button>
           <button
             onClick={copy}
             className="w-full flex items-center gap-3 px-4 py-3 text-sm hover:bg-secondary transition-colors border-t border-border"
           >
             {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4 text-muted-foreground" />}
-            {copied ? "Copied!" : "Copy Address"}
+            {copied ? "In Zwischenablage kopiert!" : "Adresse kopieren"}
           </button>
         </div>
       )}

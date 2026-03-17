@@ -1,6 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
+import { locations as staticLocations } from "@/locations";
 import MapView from "@/components/map/MapView";
 import SearchFilterBar from "@/components/map/SearchFilterBar";
 import LocationDetail from "@/components/map/LocationDetail";
@@ -17,31 +15,32 @@ export default function Home() {
   const [hideNavigation, setHideNavigation] = useState(false);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => {});
-  }, []);
+  // useEffect(() => {
+  //   base44.auth.me().then(setUser).catch(() => {});
+  // }, []);
 
   const queryClient = useQueryClient();
 
   const { data: locations = [], isLoading } = useQuery({
     queryKey: ["studyLocations"],
-    queryFn: () => base44.entities.StudyLocation.list(),
+    queryFn: () => staticLocations,
   });
 
   const { data: favorites = [] } = useQuery({
     queryKey: ["favorites"],
-    queryFn: () => base44.entities.Favorite.list(),
-    enabled: !!user,
+    queryFn: () => JSON.parse(localStorage.getItem('favorites') || '[]'),
   });
 
   const favoriteMutation = useMutation({
     mutationFn: async (location) => {
-      const existing = favorites.find((f) => f.location_id === location.id);
-      if (existing) {
-        await base44.entities.Favorite.delete(existing.id);
+      const current = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const existingIndex = current.findIndex((f) => f.location_id === location.id);
+      if (existingIndex >= 0) {
+        current.splice(existingIndex, 1);
       } else {
-        await base44.entities.Favorite.create({ location_id: location.id, user_email: user.email });
+        current.push({ location_id: location.id });
       }
+      localStorage.setItem('favorites', JSON.stringify(current));
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["favorites"] }),
   });
@@ -87,7 +86,7 @@ export default function Home() {
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground">Loading study spots...</p>
+          <p className="text-sm text-muted-foreground">StudySpots werden geladen...</p>
         </div>
       </div>
     );
@@ -120,10 +119,7 @@ export default function Home() {
           location={selectedLocation}
           onClose={() => setSelectedLocation(null)}
           isFavorite={favoriteIds.has(selectedLocation.id)}
-          onToggleFavorite={() => {
-            if (!user) { base44.auth.redirectToLogin(window.location.href); return; }
-            favoriteMutation.mutate(selectedLocation);
-          }}
+          onToggleFavorite={() => favoriteMutation.mutate(selectedLocation)}
           user={user}
           allLocations={filteredLocations}
           onSelectLocation={(loc) => { setHideNavigation(false); setSelectedLocation(loc); }}
@@ -140,7 +136,7 @@ export default function Home() {
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[998]">
         <button onClick={handleSpotCountClick}
           className="bg-card/90 backdrop-blur-xl px-4 py-2 rounded-full shadow-lg border border-border/50 text-xs font-medium text-muted-foreground hover:bg-card hover:text-foreground transition-all">
-          {filteredLocations.length} study spot{filteredLocations.length !== 1 ? "s" : ""} found
+          {filteredLocations.length} StudySpot{filteredLocations.length !== 1 ? "s" : ""} gefunden
         </button>
       </div>
     </div>

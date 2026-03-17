@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
+const res = await fetch("http://localhost:3001/api/StudyLocation");
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,11 +10,11 @@ import { cn } from "@/lib/utils";
 
 const categories = [
   { value: "cafe", label: "Café", emoji: "☕" },
-  { value: "library", label: "Library", emoji: "📚" },
+  { value: "library", label: "Bibliothek", emoji: "📚" },
   { value: "coworking", label: "Coworking", emoji: "🏢" },
-  { value: "university", label: "University", emoji: "🎓" },
+  { value: "university", label: "Universität", emoji: "🎓" },
   { value: "park", label: "Park", emoji: "🌿" },
-  { value: "other", label: "Other", emoji: "📍" },
+  { value: "other", label: "Anderes", emoji: "📍" },
 ];
 
 export default function Recommend() {
@@ -79,9 +79,9 @@ export default function Recommend() {
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <Check className="h-8 w-8 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold mb-2">Thanks for your recommendation!</h2>
-          <p className="text-muted-foreground mb-6">Our team will review it and add it to the map if it's a good fit.</p>
-          <Button onClick={() => navigate("/Home")} className="rounded-xl">Back to Map</Button>
+          <h2 className="text-2xl font-bold mb-2">Danke für deine Empfehlung!</h2>
+          <p className="text-muted-foreground mb-6">Wir werden den Ort in Kürze überprüfen und wenn er passt, zur Karte hinzufügen.</p>
+          <Button onClick={() => navigate("/Home")} className="rounded-xl">Zurück</Button>
         </div>
       </div>
     );
@@ -91,7 +91,7 @@ export default function Recommend() {
     <div className="min-h-screen bg-background">
       <div className="max-w-xl mx-auto px-4 py-8">
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back
+          <ArrowLeft className="h-4 w-4" /> Zurück
         </button>
 
         <div className="flex items-center gap-3 mb-8">
@@ -99,28 +99,28 @@ export default function Recommend() {
             <MapPin className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Recommend a Place</h1>
-            <p className="text-sm text-muted-foreground">Help the community discover great study spots</p>
+            <h1 className="text-2xl font-bold">Schlage einen Spot vor</h1>
+            <p className="text-sm text-muted-foreground">Hilf Lernenden noch mehr StudySpots zu entdecken</p>
           </div>
         </div>
 
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5" data-error={!!errors.name}>
-            <Label className={errors.name ? "text-destructive" : ""}>Place Name *{errors.name && " — required"}</Label>
+            <Label className={errors.name ? "text-destructive" : ""}>Name *{errors.name && " — required"}</Label>
             <Input placeholder="e.g. Café Jasmin" value={form.name}
               onChange={(e) => { set("name", e.target.value); setErrors((p) => ({ ...p, name: false })); }}
               className={cn("rounded-xl", errors.name && "border-destructive")} />
           </div>
 
           <div className="space-y-1.5" data-error={!!errors.address}>
-            <Label className={errors.address ? "text-destructive" : ""}>Address *{errors.address && " — required"}</Label>
+            <Label className={errors.address ? "text-destructive" : ""}>Addresse *{errors.address && " — required"}</Label>
             <Input placeholder="Street, City" value={form.address}
               onChange={(e) => { set("address", e.target.value); setErrors((p) => ({ ...p, address: false })); }}
               className={cn("rounded-xl", errors.address && "border-destructive")} />
           </div>
 
           <div className="space-y-1.5" data-error={!!errors.category}>
-            <Label className={errors.category ? "text-destructive" : ""}>Category *{errors.category && " — required"}</Label>
+            <Label className={errors.category ? "text-destructive" : ""}>Kategorie *{errors.category && " — required"}</Label>
             <div className="grid grid-cols-3 gap-2">
               {categories.map((cat) => (
                 <button
@@ -142,22 +142,22 @@ export default function Recommend() {
           </div>
 
           <div className="space-y-1.5">
-            <Label>Description</Label>
-            <Textarea placeholder="What makes this a great study spot?" value={form.description} onChange={(e) => set("description", e.target.value)} className="rounded-xl resize-none h-24" />
+            <Label>Beschreibung</Label>
+            <Textarea placeholder="Warum ist es ein toller StudySpot?" value={form.description} onChange={(e) => set("description", e.target.value)} className="rounded-xl resize-none h-24" />
           </div>
 
           <div className="space-y-1.5">
-            <Label>Opening Hours</Label>
-            <Input placeholder="e.g. Mon–Fri 8AM–8PM" value={form.hours} onChange={(e) => set("hours", e.target.value)} className="rounded-xl" />
+            <Label>Öffnungszeiten</Label>
+            <Input placeholder="z.B. Mo-Fr 10-18, Sa 12-18" value={form.hours} onChange={(e) => set("hours", e.target.value)} className="rounded-xl" />
           </div>
 
           <div className="space-y-2">
-            <Label>Amenities</Label>
+            <Label>Ausstattung</Label>
             <div className="flex gap-2 flex-wrap">
               {[
-                { key: "has_wifi", label: "WiFi", icon: Wifi },
-                { key: "has_outlets", label: "Outlets", icon: Plug },
-                { key: "has_outside_seating", label: "Outside Seating", icon: Sun },
+                { key: "has_wifi", label: "WLAN", icon: Wifi },
+                { key: "has_outlets", label: "Steckdosen", icon: Plug },
+                { key: "has_outside_seating", label: "Sitzmöglichkeit draußen", icon: Sun },
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
@@ -178,7 +178,7 @@ export default function Recommend() {
 
           {/* Photo upload */}
           <div className="space-y-1.5">
-            <Label>Photo</Label>
+            <Label>Foto(s)</Label>
             <div className="rounded-xl border border-border overflow-hidden">
               {photoPreview ? (
                 <div className="relative">
@@ -194,18 +194,18 @@ export default function Recommend() {
               ) : (
                 <label className="flex flex-col items-center gap-2 p-6 cursor-pointer hover:bg-secondary transition-colors">
                   <ImagePlus className="h-8 w-8 text-muted-foreground" />
-                  <span className="text-sm font-medium">Click to add a photo</span>
+                  <span className="text-sm font-medium">Fotos hinzufügen</span>
                   <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
                 </label>
               )}
             </div>
-            <p className="text-xs text-muted-foreground">⚠️ Only use photos you took yourself or that are license-free (e.g. CC0). Do not upload copyrighted images.</p>
+            <p className="text-xs text-muted-foreground">⚠️ Lade nur Bilder hoch, die du sebst gemacht hast oder lizenzfrei sind. Lade keine urheberrechtlich geschützten Dateien hoch.</p>
           </div>
 
           <Button type="submit" disabled={loading} className="w-full h-11 rounded-xl">
             {uploadingPhoto ? "Uploading photo…" : loading ? "Submitting…" : "Submit Recommendation"}
           </Button>
-          <p className="text-xs text-center text-muted-foreground">Recommendations are reviewed before being added to the map.</p>
+          <p className="text-xs text-center text-muted-foreground">Vorschläge werden übberprüft bevor sie für alle sichtbar werden.</p>
         </form>
       </div>
     </div>

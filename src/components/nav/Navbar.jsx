@@ -15,17 +15,17 @@ export default function Navbar({ user }) {
 
   const { data: friendRequests = [] } = useQuery({
     queryKey: ["friendRequests", user?.email],
-    queryFn: () => base44.entities.FriendRequest.filter({ to_email: user.email, status: "pending" }),
+    queryFn: () => [],
     enabled: !!user,
   });
   const { data: myMemberships = [] } = useQuery({
     queryKey: ["studyGroupMembers"],
-    queryFn: () => base44.entities.StudyGroupMember.list(),
+    queryFn: () => [],
     enabled: !!user,
   });
   const { data: allGroups = [] } = useQuery({
     queryKey: ["studyGroups"],
-    queryFn: () => base44.entities.StudyGroup.list(),
+    queryFn: () => [],
     enabled: !!user,
   });
 
@@ -81,8 +81,8 @@ export default function Navbar({ user }) {
           <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center">
             <MapPin className="h-4 w-4 text-white" />
           </div>
-          <span>StudySpot</span>
-          <span className="text-primary">Munich</span>
+          <span>StudySpots</span>
+          <span className="text-primary">München</span>
         </Link>
 
         {/* Desktop nav */}
@@ -138,7 +138,7 @@ export default function Navbar({ user }) {
 
         {/* Mobile: profile avatar + hamburger */}
         <div className="flex md:hidden items-center gap-2">
-          <div className="relative cursor-pointer" onClick={() => { if (!user) base44.auth.redirectToLogin(window.location.href); else navigate("/Profile"); }}>
+          <div className="relative cursor-pointer" onClick={() => navigate("/Profile")}>
             {user?.profile_picture ? (
               <img src={user.profile_picture} alt="" className="w-8 h-8 rounded-full object-cover" />
             ) : (

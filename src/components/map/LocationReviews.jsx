@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Star, MessageSquare, Pencil, Trash2 } from "lucide-react";
@@ -27,26 +26,23 @@ export default function LocationReviews({ locationId, user }) {
 
   const { data: reviews = [] } = useQuery({
     queryKey: ["locationReviews", locationId],
-    queryFn: () => base44.entities.LocationReview.filter({ location_id: locationId }),
+    queryFn: () => JSON.parse(localStorage.getItem(`reviews_${locationId}`) || '[]'),
   });
 
-  const myReview = reviews.find((r) => r.user_email === user?.email);
+  const myReview = null; // No user auth
 
   const submitMutation = useMutation({
     mutationFn: () => {
-      if (myReview) {
-        return base44.entities.LocationReview.update(myReview.id, {
-          rating: rating || undefined,
-          comment: comment || undefined,
-        });
-      }
-      return base44.entities.LocationReview.create({
+      const current = JSON.parse(localStorage.getItem(`reviews_${locationId}`) || '[]');
+      current.push({
+        id: Date.now().toString(),
         location_id: locationId,
-        user_email: user.email,
-        user_name: user.full_name,
-        rating: rating || undefined,
-        comment: comment || undefined,
+        user_name: 'Anonymous',
+        rating: rating || 5,
+        comment: comment || '',
+        created_date: new Date().toISOString()
       });
+      localStorage.setItem(`reviews_${locationId}`, JSON.stringify(current));
     },
     onSuccess: () => {
       setComment("");
@@ -57,7 +53,11 @@ export default function LocationReviews({ locationId, user }) {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: () => base44.entities.LocationReview.delete(myReview.id),
+    mutationFn: (id) => {
+      const current = JSON.parse(localStorage.getItem(`reviews_${locationId}`) || '[]');
+      const newReviews = current.filter((r) => r.id !== id);
+      localStorage.setItem(`reviews_${locationId}`, JSON.stringify(newReviews));
+    },
     onSuccess: () => {
       setEditing(false);
       queryClient.invalidateQueries({ queryKey: ["locationReviews", locationId] });
@@ -70,15 +70,15 @@ export default function LocationReviews({ locationId, user }) {
     setEditing(true);
   };
 
-  const showForm = user && (!myReview || editing);
+  const showForm = true; // Allow anonymous reviews
 
   return (
     <div>
       <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-1.5">
-        <MessageSquare className="h-3.5 w-3.5" /> Reviews & Comments
+        <MessageSquare className="h-3.5 w-3.5" /> Bewertungen & Kommentare
       </h3>
 
-      {reviews.length === 0 && <p className="text-xs text-muted-foreground mb-3">No reviews yet. Be the first!</p>}
+      {reviews.length === 0 && <p className="text-xs text-muted-foreground mb-3">Leer hier... schreibe die erste Bewertung!</p>}
 
       <div className="space-y-3 mb-4">
         {reviews.map((r) => (
@@ -115,7 +115,7 @@ export default function LocationReviews({ locationId, user }) {
           <Textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Share your experience (optional)..."
+            placeholder="Teile deine Erfahrung (optional)..."
             rows={2}
             className="resize-none rounded-xl text-sm"
           />
@@ -134,9 +134,7 @@ export default function LocationReviews({ locationId, user }) {
             )}
           </div>
         </div>
-      ) : !user ? (
-        <p className="text-xs text-muted-foreground italic">Log in to leave a review.</p>
-      ) : myReview && !editing ? null : null}
+      ) : null}
     </div>
   );
 }

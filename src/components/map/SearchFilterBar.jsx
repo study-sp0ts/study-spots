@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 import CategoryDropdown from "./CategoryDropdown";
 
 const amenities = [
-  { value: "has_wifi", label: "WiFi", icon: Wifi },
-  { value: "has_outlets", label: "Outlets", icon: Plug },
-  { value: "has_beverages", label: "Beverages", icon: Coffee },
-  { value: "has_food", label: "Food", icon: UtensilsCrossed },
+  { value: "has_wifi", label: "WLAN", icon: Wifi },
+  { value: "has_outlets", label: "Steckdosen", icon: Plug },
+  { value: "has_beverages", label: "Getränke", icon: Coffee },
+  { value: "has_food", label: "Essen", icon: UtensilsCrossed },
 ];
 
 export default function SearchFilterBar({
@@ -26,7 +26,7 @@ export default function SearchFilterBar({
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
           <Input
-            placeholder="Search study spots in Munich..."
+            placeholder="Suche nach Lernorten in München..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 pr-8 h-10 bg-secondary/50 border-0 rounded-xl text-sm focus-visible:ring-1 focus-visible:ring-primary"

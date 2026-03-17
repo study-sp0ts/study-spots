@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -41,13 +40,13 @@ export default function Profile() {
     }).catch(() => {});
   }, []);
 
-  const { data: allLocations = [] } = useQuery({ queryKey: ["studyLocations"], queryFn: () => base44.entities.StudyLocation.list() });
-  const { data: favorites = [] } = useQuery({ queryKey: ["favorites"], queryFn: () => base44.entities.Favorite.list(), enabled: !!user });
-  const { data: allGroups = [] } = useQuery({ queryKey: ["studyGroups"], queryFn: () => base44.entities.StudyGroup.list(), enabled: !!user });
-  const { data: myMemberships = [] } = useQuery({ queryKey: ["studyGroupMembers"], queryFn: () => base44.entities.StudyGroupMember.list(), enabled: !!user });
-  const { data: groupBookmarks = [] } = useQuery({ queryKey: ["groupBookmarks"], queryFn: () => base44.entities.StudyGroupBookmark.list(), enabled: !!user });
-  const { data: friendRequests = [] } = useQuery({ queryKey: ["friendRequests", user?.email], queryFn: () => base44.entities.FriendRequest.filter({ to_email: user.email }), enabled: !!user });
-  const { data: sentRequests = [] } = useQuery({ queryKey: ["sentRequests", user?.email], queryFn: () => base44.entities.FriendRequest.filter({ from_email: user.email }), enabled: !!user });
+  const { data: allLocations = [] } = useQuery({ queryKey: ["studyLocations"], queryFn: () => [] });
+  const { data: favorites = [] } = useQuery({ queryKey: ["favorites"], queryFn: () => JSON.parse(localStorage.getItem('favorites') || '[]') });
+  const { data: allGroups = [] } = useQuery({ queryKey: ["studyGroups"], queryFn: () => [] });
+  const { data: myMemberships = [] } = useQuery({ queryKey: ["studyGroupMembers"], queryFn: () => [] });
+  const { data: groupBookmarks = [] } = useQuery({ queryKey: ["groupBookmarks"], queryFn: () => [] });
+  const { data: friendRequests = [] } = useQuery({ queryKey: ["friendRequests", user?.email], queryFn: () => [] });
+  const { data: sentRequests = [] } = useQuery({ queryKey: ["sentRequests", user?.email], queryFn: () => [] });
 
   const acceptFriendMutation = useMutation({
     mutationFn: (id) => base44.entities.FriendRequest.update(id, { status: "accepted" }),
@@ -59,9 +58,9 @@ export default function Profile() {
   });
 
   const saveProfileMutation = useMutation({
-    mutationFn: () => base44.auth.updateMe({ bio: editBio, profile_picture: editPicUrl }),
+    mutationFn: () => Promise.resolve(), // Mock
     onSuccess: async () => {
-      const updated = await base44.auth.me();
+      const updated = user; // Mock
       setUser(updated);
       setEditingProfile(false);
       queryClient.invalidateQueries();
@@ -123,7 +122,7 @@ export default function Profile() {
     <div className="min-h-screen bg-background">
       <div className="max-w-lg mx-auto px-4 py-8">
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Back to Map
+          <ArrowLeft className="h-4 w-4" /> Zurück
         </button>
 
         {/* Profile card */}
@@ -149,8 +148,8 @@ export default function Profile() {
                 <Textarea value={editBio} onChange={(e) => setEditBio(e.target.value)} placeholder="Tell others about yourself..." rows={2} className="rounded-xl resize-none mt-1" />
               </div>
               <div className="flex gap-2">
-                <Button size="sm" onClick={() => saveProfileMutation.mutate()} className="rounded-xl">Save</Button>
-                <Button size="sm" variant="outline" onClick={() => setEditingProfile(false)} className="rounded-xl">Cancel</Button>
+                <Button size="sm" onClick={() => saveProfileMutation.mutate()} className="rounded-xl">Speichern</Button>
+                <Button size="sm" variant="outline" onClick={() => setEditingProfile(false)} className="rounded-xl">Abbrechen</Button>
               </div>
             </div>
           ) : (
@@ -163,15 +162,15 @@ export default function Profile() {
                 <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
                 {user?.bio && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{user.bio}</p>}
                 <div className="flex gap-3 mt-1 text-xs text-muted-foreground">
-                  <span>{acceptedFriends.length} friend{acceptedFriends.length !== 1 ? "s" : ""}</span>
-                  {user?.created_date && <span>Joined {format(new Date(user.created_date), "MMMM yyyy")}</span>}
+                  <span>{acceptedFriends.length} StudyBuddy{acceptedFriends.length !== 1 ? "s" : ""}</span>
+                  {user?.created_date && <span>Beigreteten im {format(new Date(user.created_date), "MMMM yyyy")}</span>}
                 </div>
               </div>
               <div className="flex gap-1 flex-shrink-0">
                 <Button variant="ghost" size="sm" onClick={() => setEditingProfile(true)} className="text-muted-foreground hover:text-foreground">
                   <Pencil className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="sm" onClick={() => base44.auth.logout()} className="text-muted-foreground hover:text-foreground">
+                <Button variant="ghost" size="sm" onClick={() => {}} className="text-muted-foreground hover:text-foreground">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
@@ -184,13 +183,13 @@ export default function Profile() {
           <div className="bg-card rounded-2xl border border-amber-200 p-4 mb-4 space-y-3">
             <h3 className="text-sm font-semibold flex items-center gap-2">
               <AlertCircle className="h-4 w-4 text-amber-500" />
-              {totalNotifications} pending notification{totalNotifications !== 1 ? "s" : ""}
+              {totalNotifications} ungelesene Nachrichten{totalNotifications !== 1 ? "s" : ""}
             </h3>
             {pendingRequests.map((req) => (
               <div key={req.id} className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <UserPlus className="h-4 w-4 text-primary" />
-                  <span className="text-sm"><span className="font-medium">{req.from_name || req.from_email}</span> wants to be your friend</span>
+                  <span className="text-sm"><span className="font-medium">{req.from_name || req.from_email}</span> will dein StudyBuddy sein</span>
                 </div>
                 <div className="flex gap-1.5">
                   <Button size="sm" className="h-7 rounded-lg" onClick={() => acceptFriendMutation.mutate(req.id)}>
@@ -221,15 +220,15 @@ export default function Profile() {
         <div className="grid grid-cols-3 gap-3 mb-5">
           <div className="bg-card rounded-2xl border border-border p-4 text-center">
             <div className="text-2xl font-bold text-primary">{acceptedFriends.length}</div>
-            <div className="text-xs text-muted-foreground mt-1">Friends</div>
+            <div className="text-xs text-muted-foreground mt-1">Buddies</div>
           </div>
           <div className="bg-card rounded-2xl border border-border p-4 text-center">
             <div className="text-2xl font-bold text-primary">{sessionsAttended}</div>
-            <div className="text-xs text-muted-foreground mt-1">Sessions Attended</div>
+            <div className="text-xs text-muted-foreground mt-1">Sessions besucht</div>
           </div>
           <div className="bg-card rounded-2xl border border-border p-4 text-center">
             <div className="text-2xl font-bold text-primary">{sessionsCreated}</div>
-            <div className="text-xs text-muted-foreground mt-1">Sessions Created</div>
+            <div className="text-xs text-muted-foreground mt-1">Sessions erstellt</div>
           </div>
         </div>
 
@@ -251,7 +250,7 @@ export default function Profile() {
           favoriteLocations.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               <Bookmark className="h-10 w-10 mx-auto mb-3 opacity-30" />
-              <p className="text-sm">No saved spots yet.</p>
+              <p className="text-sm">Noch keine gespeicherten Spots.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -281,8 +280,8 @@ export default function Profile() {
           upcomingGroups.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               <Users className="h-10 w-10 mx-auto mb-3 opacity-30" />
-              <p className="text-sm">No upcoming study groups.</p>
-              <button onClick={() => navigate("/StudyGroups")} className="text-primary text-sm mt-2 hover:underline">Browse study groups →</button>
+              <p className="text-sm">Keine anstehenden Study Sessions..</p>
+              <button onClick={() => navigate("/StudyGroups")} className="text-primary text-sm mt-2 hover:underline">Gruppen durchsuchen →</button>
             </div>
           ) : (
             <div className="space-y-3">{upcomingGroups.map(renderGroupItem)}</div>
@@ -293,7 +292,7 @@ export default function Profile() {
           pastGroups.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               <Clock className="h-10 w-10 mx-auto mb-3 opacity-30" />
-              <p className="text-sm">No past study groups yet.</p>
+              <p className="text-sm">Noch keine vergangenen Study Sessions.</p>
             </div>
           ) : (
             <div className="space-y-3">{pastGroups.map(renderGroupItem)}</div>

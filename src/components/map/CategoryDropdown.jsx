@@ -5,11 +5,11 @@ import { categoryColors } from "./MapView";
 
 export const categories = [
   { value: "cafe", label: "Café", icon: Coffee },
-  { value: "library", label: "Library", icon: BookOpen },
+  { value: "library", label: "Bibliothek", icon: BookOpen },
   { value: "coworking", label: "Coworking", icon: Building2 },
-  { value: "university", label: "University", icon: Layers },
+  { value: "university", label: "Universität", icon: Layers },
   { value: "park", label: "Park", icon: TreePine },
-  { value: "other", label: "Other", icon: MapPin },
+  { value: "other", label: "Anderes", icon: MapPin },
 ];
 
 export default function CategoryDropdown({ selectedCategories, toggleCategory, showFavorites, setShowFavorites }) {
@@ -48,7 +48,7 @@ export default function CategoryDropdown({ selectedCategories, toggleCategory, s
         <div className="absolute top-full mt-2 left-0 w-64 bg-card border border-border rounded-2xl shadow-2xl z-50 overflow-hidden">
           <div className="p-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground px-2 py-1.5">
-              Pin Legend & Filter
+              Legende & Filter
             </p>
             {categories.map((cat) => {
               const Icon = cat.icon;
@@ -84,7 +84,7 @@ export default function CategoryDropdown({ selectedCategories, toggleCategory, s
                 )}
               >
                 <Bookmark className={cn("h-4 w-4", showFavorites ? "fill-amber-500 text-amber-500" : "text-muted-foreground")} />
-                <span className="flex-1 text-left font-medium">Favorites</span>
+                <span className="flex-1 text-left font-medium">Favoriten</span>
                 {showFavorites && <Check className="h-4 w-4 text-amber-500" />}
               </button>
             </div>
