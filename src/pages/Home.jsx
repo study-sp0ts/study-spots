@@ -23,7 +23,15 @@ export default function Home() {
 
   const { data: locations = [], isLoading } = useQuery({
     queryKey: ["studyLocations"],
-    queryFn: () => staticLocations,
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/StudyLocation");
+        return res.json();
+      } catch {
+        // Fallback to static data if server not available
+        return staticLocations;
+      }
+    },
   });
 
   const { data: favorites = [] } = useQuery({
