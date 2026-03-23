@@ -253,6 +253,10 @@ export default function StudyGroups() {
                   Filter zurücksetzen
                 </button>
               )}
+            </div>
+            </div>
+
+          {/* Results */}
           <p className="text-xs text-muted-foreground mb-4">
             {filtered.length} Session{filtered.length !== 1 ? "s" : ""} gefunden
           </p>
