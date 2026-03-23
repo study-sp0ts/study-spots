@@ -101,6 +101,18 @@ export default function StudyGroups() {
       );
     }
 
+    if (filters.joinType.length > 0) {
+      result = result.filter((g) => filters.joinType.includes(g.join_type));
+    }
+
+    if (filters.availability === "available") {
+      result = result.filter((g) => !g.max_size || getMemberCount(g.id) < g.max_size);
+    }
+
+    if (filters.hideCancelled) {
+      result = result.filter((g) => g.status !== "cancelled");
+    }
+
     result.sort((a, b) => {
       if (sortBy === "date_asc") return new Date(a.date_time) - new Date(b.date_time);
       if (sortBy === "date_desc") return new Date(b.date_time) - new Date(a.date_time);
@@ -108,7 +120,7 @@ export default function StudyGroups() {
     });
 
     return result;
-  }, [searchQuery, sortBy]);
+  }, [searchQuery, sortBy, filters]);
 
   const bookmarkIds = new Set();
 
@@ -161,7 +173,86 @@ export default function StudyGroups() {
             </select>
           </div>
 
-          {/* Results */}
+          {/* Filters */}
+          <div className="mb-6 space-y-3">
+            <div className="flex flex-wrap gap-2">
+              <label className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:bg-secondary cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  checked={filters.joinType.includes("open")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFilters({ ...filters, joinType: [...filters.joinType, "open"] });
+                    } else {
+                      setFilters({ ...filters, joinType: filters.joinType.filter((t) => t !== "open") });
+                    }
+                  }}
+                  className="rounded"
+                />
+                <span className="text-sm font-medium">Öffentlich</span>
+              </label>
+              <label className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:bg-secondary cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  checked={filters.joinType.includes("signup")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFilters({ ...filters, joinType: [...filters.joinType, "signup"] });
+                    } else {
+                      setFilters({ ...filters, joinType: filters.joinType.filter((t) => t !== "signup") });
+                    }
+                  }}
+                  className="rounded"
+                />
+                <span className="text-sm font-medium">Anmeldung</span>
+              </label>
+              <label className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:bg-secondary cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  checked={filters.joinType.includes("apply")}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setFilters({ ...filters, joinType: [...filters.joinType, "apply"] });
+                    } else {
+                      setFilters({ ...filters, joinType: filters.joinType.filter((t) => t !== "apply") });
+                    }
+                  }}
+                  className="rounded"
+                />
+                <span className="text-sm font-medium">Mit Anfrage</span>
+              </label>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <label className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:bg-secondary cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  checked={filters.availability === "available"}
+                  onChange={(e) => {
+                    setFilters({ ...filters, availability: e.target.checked ? "available" : "all" });
+                  }}
+                  className="rounded"
+                />
+                <span className="text-sm font-medium">Nur verfügbare</span>
+              </label>
+              <label className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:bg-secondary cursor-pointer transition-colors">
+                <input
+                  type="checkbox"
+                  checked={filters.hideCancelled}
+                  onChange={(e) => {
+                    setFilters({ ...filters, hideCancelled: e.target.checked });
+                  }}
+                  className="rounded"
+                />
+                <span className="text-sm font-medium">Nur aktive</span>
+              </label>
+              {(filters.joinType.length > 0 || filters.availability === "available" || filters.hideCancelled) && (
+                <button
+                  onClick={() => setFilters({ joinType: [], category: [], availability: "all", dateFrom: "", dateTo: "", hideCancelled: false })}
+                  className="px-3 py-2 rounded-xl border border-destructive/30 hover:bg-destructive/10 text-destructive text-sm font-medium transition-colors"
+                >
+                  Filter zurücksetzen
+                </button>
+              )}
           <p className="text-xs text-muted-foreground mb-4">
             {filtered.length} Session{filtered.length !== 1 ? "s" : ""} gefunden
           </p>
