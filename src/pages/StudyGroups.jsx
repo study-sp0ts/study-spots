@@ -31,10 +31,12 @@ export default function StudyGroups() {
       try {
         return await base44.entities.StudyGroup.list();
       } catch (error) {
-        console.log("Base44 StudyGroup list failed, showing empty list");
+        console.log("Base44 StudyGroup list failed, showing empty list", error);
         return [];
       }
     },
+    retry: 1,
+    staleTime: 60000,
   });
 
   const { data: members = [] } = useQuery({
@@ -43,10 +45,12 @@ export default function StudyGroups() {
       try {
         return await base44.entities.StudyGroupMember.list();
       } catch (error) {
-        console.log("Base44 StudyGroupMember list failed");
+        console.log("Base44 StudyGroupMember list failed", error);
         return [];
       }
     },
+    retry: 1,
+    staleTime: 60000,
   });
 
   const { data: bookmarks = [] } = useQuery({
@@ -55,11 +59,13 @@ export default function StudyGroups() {
       try {
         return await base44.entities.StudyGroupBookmark.list();
       } catch (error) {
-        console.log("Base44 StudyGroupBookmark list failed");
+        console.log("Base44 StudyGroupBookmark list failed", error);
         return [];
       }
     },
     enabled: !!user,
+    retry: 1,
+    staleTime: 60000,
   });
 
   const bookmarkMutation = useMutation({
