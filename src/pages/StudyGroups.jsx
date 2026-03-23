@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-const res = await fetch("http://localhost:3001/api/StudyLocation");
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, Filter, X, Users } from "lucide-react";
