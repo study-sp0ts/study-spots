@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Search, Filter, X, Users } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 import Navbar from "@/components/nav/Navbar";
 import StudyGroupCard from "@/components/groups/StudyGroupCard";
 import StudyGroupDetail from "@/components/groups/StudyGroupDetail";
