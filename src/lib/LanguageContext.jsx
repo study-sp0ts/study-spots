@@ -146,10 +146,12 @@ export const translations = { de, en };
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState("de");
+  // Language switching disabled - German only
+  const lang = "de";
+  // const [lang, setLang] = useState("de");
   const t = translations[lang];
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t }}>
+    <LanguageContext.Provider value={{ lang, t }}>
       {children}
     </LanguageContext.Provider>
   );

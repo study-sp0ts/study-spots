@@ -11,7 +11,9 @@ export default function Navbar({ user }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const ref = useRef(null);
   const navigate = useNavigate();
-  const { lang, setLang, t } = useLanguage();
+  // Language switching disabled - German only
+  // const { lang, setLang, t } = useLanguage();
+  const { t } = useLanguage();
 
   const { data: friendRequests = [] } = useQuery({
     queryKey: ["friendRequests", user?.email],
@@ -42,12 +44,12 @@ export default function Navbar({ user }) {
   // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false); }, []);
 
-  const LangToggle = () => (
+  /* const LangToggle = () => (
     <div className="flex rounded-lg border border-border overflow-hidden text-xs font-semibold">
       <button onClick={() => setLang("de")} className={cn("px-2.5 py-1.5 transition-colors", lang === "de" ? "bg-primary text-primary-foreground" : "hover:bg-secondary text-muted-foreground")}>DE</button>
       <button onClick={() => setLang("en")} className={cn("px-2.5 py-1.5 transition-colors border-l border-border", lang === "en" ? "bg-primary text-primary-foreground" : "hover:bg-secondary text-muted-foreground")}>EN</button>
     </div>
-  );
+  ); */
 
   const ProfileBtn = ({ onClick }) => (
     <div
@@ -131,7 +133,7 @@ export default function Navbar({ user }) {
             {t.about}
           </Link>
 
-          <LangToggle />
+          {/* <LangToggle /> - Language switching disabled */}
 
           <ProfileBtn />
         </div>
@@ -177,10 +179,12 @@ export default function Navbar({ user }) {
             <Info className="h-4 w-4 text-muted-foreground" />
             {t.about}
           </Link>
+          {/* Language switching disabled - German only
           <div className="flex items-center justify-between px-3 py-3">
             <span className="text-sm font-medium text-muted-foreground">{t.language}</span>
             <LangToggle />
           </div>
+          */}
         </div>
       )}
     </div>
