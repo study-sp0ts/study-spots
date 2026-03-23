@@ -35,7 +35,7 @@ export default function CategoryDropdown({ selectedCategories, toggleCategory, s
             : "bg-card text-foreground border-border hover:bg-secondary"
         )}
       >
-        <span>Category</span>
+        <span>Kategorie</span>
         {activeCount > 0 && (
           <span className="bg-white/30 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
             {activeCount}
