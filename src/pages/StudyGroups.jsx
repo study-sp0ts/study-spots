@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search, Filter, X, Users } from "lucide-react";
+import { Plus, Search, Filter, X, Users, Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import Navbar from "@/components/nav/Navbar";
 import StudyGroupCard from "@/components/groups/StudyGroupCard";
@@ -20,22 +20,45 @@ export default function StudyGroups() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => {});
+    base44.auth.me().then(setUser).catch(() => {
+      console.log("Auth failed, continuing without user");
+    });
   }, []);
 
-  const { data: groups = [] } = useQuery({
+  const { data: groups = [], isLoading: groupsLoading } = useQuery({
     queryKey: ["studyGroups"],
-    queryFn: () => base44.entities.StudyGroup.list(),
+    queryFn: async () => {
+      try {
+        return await base44.entities.StudyGroup.list();
+      } catch (error) {
+        console.log("Base44 StudyGroup list failed, showing empty list");
+        return [];
+      }
+    },
   });
 
   const { data: members = [] } = useQuery({
     queryKey: ["studyGroupMembers"],
-    queryFn: () => base44.entities.StudyGroupMember.list(),
+    queryFn: async () => {
+      try {
+        return await base44.entities.StudyGroupMember.list();
+      } catch (error) {
+        console.log("Base44 StudyGroupMember list failed");
+        return [];
+      }
+    },
   });
 
   const { data: bookmarks = [] } = useQuery({
     queryKey: ["groupBookmarks"],
-    queryFn: () => base44.entities.StudyGroupBookmark.list(),
+    queryFn: async () => {
+      try {
+        return await base44.entities.StudyGroupBookmark.list();
+      } catch (error) {
+        console.log("Base44 StudyGroupBookmark list failed");
+        return [];
+      }
+    },
     enabled: !!user,
   });
 
@@ -135,7 +158,12 @@ export default function StudyGroups() {
           {/* Results */}
           <p className="text-xs text-muted-foreground mb-4">{filtered.length} Session{filtered.length !== 1 ? "s" : ""} gefunden</p>
 
-          {filtered.length === 0 ? (
+          {groupsLoading ? (
+            <div className="text-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">StudySessions werden geladen...</p>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-16 text-muted-foreground">
               <Users className="h-12 w-12 mx-auto mb-3 opacity-20" />
               <p className="font-medium">Keine StudySession gefunden</p>
