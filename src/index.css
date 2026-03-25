@@ -1,4 +1,5 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +7,7 @@
 
 @layer base {
   :root {
-    --font-inter: 'Inter', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
     --background: 40 20% 98%;
     --foreground: 220 20% 10%;
     --card: 0 0% 100%;
@@ -84,6 +85,6 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground font-playfair;
   }
 }
