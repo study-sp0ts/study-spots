@@ -50,7 +50,7 @@ const LoginSignup = () => {
             <div className="overlay-panel overlay-left">
               <h1>Wilkommen zurück!</h1>
               <p>Um auf alle Fuktionen zugriff zu haben, logge dich bitte mit deinen Anmeldedaten ein</p>
-              <button className="ghost" onClick={handleSignInClick} id="signIn">Einloggen</button>
+              <button style={{ borderColor: '#333' }} className="ghost" onClick={handleSignInClick} id="signIn">Einloggen</button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1 id="h1up">Hallo, Freund!</h1>
