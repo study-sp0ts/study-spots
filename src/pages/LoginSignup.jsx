@@ -53,8 +53,8 @@ const LoginSignup = () => {
               <button className="ghost" onClick={handleSignInClick} id="signIn">Einloggen</button>
             </div>
             <div className="overlay-panel overlay-right">
-              <h1>Hallo, Freund!</h1>
-              <p>Erzähl uns ein wenig über dich und starte unser gemeinsames Kapitel</p>
+              <h1 id="h1up">Hallo, Freund!</h1>
+              <p id="divup">Erzähl uns ein wenig über dich und starte unser gemeinsames Kapitel</p>
               <button className="ghost" onClick={handleSignUpClick} id="signUp">Registrieren</button>
             </div>
           </div>

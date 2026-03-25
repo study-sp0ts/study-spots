@@ -16,12 +16,10 @@
 .login-page h1 {
   font-weight: bold;
   margin: 0;
-  color:#333;
 }
 
 .login-page h2 {
   text-align: center;
-  color:#333;
 }
 
 .login-page p {
@@ -221,4 +219,8 @@
   margin: 0 5px;
   height: 40px;
   width: 40px;
+}
+
+#h1up #devup{
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;;
 }
