@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Inter', sans-serif;
   height: 100vh;
   margin: -20px 0 50px;
 }
@@ -43,8 +43,8 @@
 
 .login-page button {
   border-radius: 20px;
-  border: 1px solid primary;
-  background-color: primary;
+  border: 1px solid #FF4B2B;
+  background-color: #FF4B2B;
   color: #FFFFFF;
   font-size: 12px;
   font-weight: bold;
@@ -64,8 +64,8 @@
 
 .login-page button.ghost {
   background-color: transparent;
-  border-color: #FFFFFF;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  border: 2px solid #FFFFFF;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .login-page form {
@@ -191,11 +191,11 @@
 }
 
 .login-page .overlay-panel h1 {
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .login-page .overlay-panel p {
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .login-page .overlay-left {
