@@ -21,8 +21,8 @@ export const AuthProvider = ({ children }) => {
     // For local development, skip Base44 auth checks and set mock user
     setIsLoadingPublicSettings(false);
     setIsLoadingAuth(false);
-    setIsAuthenticated(true);
-    setUser({ email: 'anonymous@example.com', full_name: 'Anonymous' });
+    // setIsAuthenticated(true);
+    // setUser({ email: 'anonymous@example.com', full_name: 'Anonymous' });
   };
 
   const checkUserAuth = async () => {

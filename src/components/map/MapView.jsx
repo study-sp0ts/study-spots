@@ -4,12 +4,12 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 export const categoryColors = {
-  cafe: "#d97706",
-  library: "#2563eb",
-  coworking: "#9333ea",
-  university: "#059669",
-  park: "#16a34a",
-  other: "#6b7280",
+  cafe: "#cfb59e",
+  library: "#ecbd35",
+  coworking: "#4a1117",
+  university: "#bbd2e1",
+  park: "#76845b",
+  other: "#424451",
 };
 
 // Small SVG icons per category (white, for inside pin)
