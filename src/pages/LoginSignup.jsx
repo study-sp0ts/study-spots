@@ -41,7 +41,7 @@ const LoginSignup = () => {
             <span>or use your account</span> */}
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Passwort" />
-            <a href="#">Passwort vergessen?</a>
+            <a href="#" style={{ color: '#666666' }}>Passwort vergessen?</a>
             <button>Einloggen</button>
           </form>
         </div>

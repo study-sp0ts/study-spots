@@ -16,10 +16,12 @@
 .login-page h1 {
   font-weight: bold;
   margin: 0;
+  color:#333;
 }
 
 .login-page h2 {
   text-align: center;
+  color:#333;
 }
 
 .login-page p {
@@ -156,8 +158,8 @@
 
 .login-page .overlay {
   background: primary;
-  background: -webkit-linear-gradient(to right, #c1ce9c, #dfebc8);
-  background: linear-gradient(to right, #c1ce9c, #dfebc8);
+  background: -webkit-linear-gradient(to left, #c1ce9c, #dfebc8);
+  background: linear-gradient(to left, #c1ce9c, #dfebc8);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
