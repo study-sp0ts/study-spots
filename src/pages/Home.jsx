@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { locations as staticLocations } from "@/locations";
 import MapView from "@/components/map/MapView";
@@ -15,7 +15,7 @@ export default function Home() {
   const [showFavorites, setShowFavorites] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [hideNavigation, setHideNavigation] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user] = useState(null);
 
   // useEffect(() => {
   //   base44.auth.me().then(setUser).catch(() => {});

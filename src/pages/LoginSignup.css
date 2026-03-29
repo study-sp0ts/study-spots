@@ -1,3 +1,4 @@
+/* LoginSignup styles */
 .login-page * {
   box-sizing: border-box;
 }
@@ -43,8 +44,8 @@
 
 .login-page button {
   border-radius: 20px;
-  border: 1px solid #FF4B2B;
-  background-color: #FF4B2B;
+  border: 1px solid #c1ce9c;
+  background-color: #c1ce9c;
   color: #FFFFFF;
   font-size: 12px;
   font-weight: bold;
@@ -64,8 +65,8 @@
 
 .login-page button.ghost {
   background-color: transparent;
-  border: 2px solid #FFFFFF;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  border: 2px solid #000000;
+  color: #000000;
 }
 
 .login-page form {
@@ -156,13 +157,12 @@
 }
 
 .login-page .overlay {
-  background: primary;
   background: -webkit-linear-gradient(to left, #c1ce9c, #dfebc8);
   background: linear-gradient(to right, #c1ce9c, #dfebc8);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
-  color: #FFFFFF;
+  color: #000000;
   position: relative;
   left: -100%;
   height: 100%;
@@ -191,41 +191,9 @@
 }
 
 .login-page .overlay-panel h1 {
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  text-shadow: none;
 }
 
 .login-page .overlay-panel p {
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-}
-
-.login-page .overlay-left {
-  transform: translateX(-20%);
-}
-
-.login-page .container.right-panel-active .overlay-left {
-  transform: translateX(0);
-}
-
-.login-page .overlay-right {
-  right: 0;
-  transform: translateX(0);
-}
-
-.login-page .container.right-panel-active .overlay-right {
-  transform: translateX(20%);
-}
-
-.login-page .social-container {
-  margin: 20px 0;
-}
-
-.login-page .social-container a {
-  border: 1px solid #DDDDDD;
-  border-radius: 50%;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 5px;
-  height: 40px;
-  width: 40px;
+  text-shadow: none;
 }

@@ -68,12 +68,10 @@ const DEMO_MEMBERS = [
 ];
 
 export default function StudyGroups() {
-  const [user, setUser] = useState({
+  const [user] = useState({
     email: "demo@example.com",
     full_name: "Demo User",
   });
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  const [showCreate, setShowCreate] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({
     joinType: [],
@@ -278,7 +276,6 @@ export default function StudyGroups() {
                   memberCount={getMemberCount(group.id)}
                   isBookmarked={bookmarkIds.has(group.id)}
                   onBookmark={() => console.log("Bookmark:", group.id)}
-                  onClick={() => setSelectedGroup(group)}
                 />
               ))}
             </div>

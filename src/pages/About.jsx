@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Mail, MapPin, Shield, FileText, Heart, Phone } from "lucide-react";
+import { ArrowLeft, Mail, MapPin, Shield, FileText } from "lucide-react";
 
 export default function About() {
   const navigate = useNavigate();

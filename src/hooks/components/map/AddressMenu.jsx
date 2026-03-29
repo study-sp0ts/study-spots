@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MapPin, Copy, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 export default function AddressMenu({ address, latitude, longitude }) {
   const [open, setOpen] = useState(false);

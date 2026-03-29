@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   X, Wifi, Plug, Sun, Clock, Star, Coffee,
   BookOpen, Building2, TreePine, Layers, MapPin, Volume2,
-  Bookmark, Download, UtensilsCrossed, Users, ExternalLink, ChevronLeft, ChevronRight, Upload, Copy, Check, Wine
+  Bookmark, Download, UtensilsCrossed, Users, ExternalLink, ChevronLeft, ChevronRight, Upload, Copy, Check
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AddressMenu from "./AddressMenu";
@@ -18,7 +18,7 @@ const categoryConfig = {
   coworking: { label: "Coworking", icon: Building2, color: "bg-purple-100 text-purple-700" },
   university: { label: "Universität", icon: Layers, color: "bg-emerald-100 text-emerald-700" },
   park: { label: "Park", icon: TreePine, color: "bg-green-100 text-green-700" },
-  restaurantorbar: { label: "Restaurant/Bar", icon: MapPin, color: "bg-gray-100 text-gray-700" },
+  other: { label: "Anderes", icon: MapPin, color: "bg-gray-100 text-gray-700" },
 };
 
 const noiseLevelConfig = {
@@ -225,7 +225,6 @@ export default function LocationDetail({ location, onClose, isFavorite, onToggle
                 <AmenityBadge active={location.has_wifi} icon={Wifi} label="WLAN" />
                 <AmenityBadge active={location.has_outlets} icon={Plug} label="Steckdosen" />
                 <AmenityBadge active={!!(location.outside_seats && location.outside_seats !== "none") || location.has_outside_seating} icon={Sun} label="Sitzmöglichkeiten draußen" />
-                {location.has_alc && <AmenityBadge active={true} icon={Wine} label="Alkohol" />}
               </div>
             </div>
 
