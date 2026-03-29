@@ -15,7 +15,7 @@ const joinTypes = [
   { value: "invite_only", label: "Invite only", desc: "Share link to invite" },
 ];
 
-const categories = ["cafe", "library", "coworking", "university", "park", "online", "other"];
+const categories = ["cafe", "library", "coworking", "university", "park", "online", "restaurantorbar"];
 
 export default function CreateGroupModal({ user, onClose, onCreated }) {
   const [form, setForm] = useState({

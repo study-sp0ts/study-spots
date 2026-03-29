@@ -9,7 +9,7 @@ export const categories = [
   { value: "coworking", label: "Coworking", icon: Building2 },
   { value: "university", label: "Universität", icon: Layers },
   { value: "park", label: "Park", icon: TreePine },
-  { value: "other", label: "Anderes", icon: MapPin },
+  { value: "restaurantorbar", label: "Restaurant/Bar", icon: MapPin },
 ];
 
 export default function CategoryDropdown({ selectedCategories, toggleCategory, showFavorites, setShowFavorites }) {

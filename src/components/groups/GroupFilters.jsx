@@ -16,7 +16,7 @@ const categories = [
   { value: "university", label: "Universität" },
   { value: "park", label: "Park" },
   { value: "online", label: "Online" },
-  { value: "other", label: "Anderes" },
+  { value: "restaurantorbar", label: "Restaurant/Bar" },
 ];
 
 export default function GroupFilters({ filters, setFilters }) {

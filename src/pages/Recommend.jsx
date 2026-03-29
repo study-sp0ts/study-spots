@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, MapPin, Check, Wifi, Plug, Sun, ImagePlus, X } from "lucide-react";
+import { ArrowLeft, MapPin, Check, Wifi, Plug, Sun, ImagePlus, X, Wine } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const categories = [
@@ -13,7 +13,7 @@ const categories = [
   { value: "coworking", label: "Coworking", emoji: "🏢" },
   { value: "university", label: "Universität", emoji: "🎓" },
   { value: "park", label: "Park", emoji: "🌿" },
-  { value: "other", label: "Anderes", emoji: "📍" },
+  { value: "restaurantorbar", label: "Restaurant/Bar", emoji: "🍽️" },
 ];
 
 export default function Recommend() {
@@ -24,7 +24,7 @@ export default function Recommend() {
   const formRef = useRef(null);
   const [form, setForm] = useState({
     name: "", address: "", category: "", description: "",
-    has_wifi: false, has_outlets: false, has_outside_seating: false, hours: "",
+    has_wifi: false, has_outlets: false, has_outside_seating: false, has_alc: false, hours: "",
   });
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -157,6 +157,7 @@ export default function Recommend() {
                 { key: "has_wifi", label: "WLAN", icon: Wifi },
                 { key: "has_outlets", label: "Steckdosen", icon: Plug },
                 { key: "has_outside_seating", label: "Sitzmöglichkeit draußen", icon: Sun },
+                { key: "has_alc", label: "Alkohol", icon: Wine },
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}

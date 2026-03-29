@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './LoginSignup.css';
 
 const LoginSignup = () => {
   const [rightPanelActive, setRightPanelActive] = useState(false);
