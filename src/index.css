@@ -248,8 +248,8 @@
 }
 
 .login-page .overlay {
-  background: -webkit-linear-gradient(to left, #c1ce9c, #dfebc8);
-  background: linear-gradient(to right, #c1ce9c, #dfebc8);
+  background: -webkit-linear-gradient(to left, #4CAF50, #81C784);
+  background: linear-gradient(to right, #4CAF50, #81C784);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
